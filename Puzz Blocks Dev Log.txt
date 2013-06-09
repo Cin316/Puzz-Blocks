@@ -1,0 +1,47 @@
+Puzz Blocks Dev Log
+
+Previously
+ 
+ -Created Puzz Blocks idea.
+ 
+ -Created 80x80 graphics.
+   -Created Metal Block sprite.
+   -Created Slime/Goo sprite.
+   -Created Rotting Wood sprite.
+ -Created character sprite (no animations).
+
+ -Created Puzz Blocks prototype in Game Salad.
+ -Created 3 levels.
+ -Partial port of Game Salad Puzz Blocks to Stencyl.
+ 
+ -Created Utilis.
+ -Created UtiliGame.
+
+June 6, 2013
+ 
+ -Decided to start work on Puzz Blocks using Java with UtiliGame.
+ -Started this Dev Log.
+ -Re-created the Metal Block sprite using vector art.
+   -Exported at 64x64.
+ -Re-created Slime sprite.
+   -Added 12 frames of animation.
+   -Exported at 64x64.
+
+June 7, 2013
+ 
+ -Redid frames 6 and 7 of Slime to tile.
+ -Created GIF of Slime animation for viewing.
+ -Created character image as a bitmap.
+   -Exported at 128x64.
+
+June 8, 2013
+ 
+ -Created Puzz Blocks Github repository.
+ -Created Eclipse project configured to use Github.
+
+June 9, 2013
+ 
+ -Re-created Github repository and Eclipse link.
+   -Is much neater.
+   -Includes README.md and .gitignore in eclipse.
+ -Added this to git repo.
