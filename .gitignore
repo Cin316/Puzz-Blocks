@@ -1,0 +1,10 @@
+#Eclipse
+.settings
+.project
+
+#java specific
+*.class
+.classpath
+
+#general
+*.DS_Store
