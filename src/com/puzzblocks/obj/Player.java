@@ -2,8 +2,7 @@ package com.puzzblocks.obj;
 
 import java.awt.Image;
 
-import com.utilis.game.obj.CollisionBox;
-import com.utilis.game.obj.ScrollingEntity;
+import com.utilis.game.obj.*;
 
 public class Player extends ScrollingEntity {
 	

@@ -1,10 +1,12 @@
 package com.puzzblocks.obj;
 
-import com.utilis.game.gui.ScrollingCanvas;
-import com.utilis.game.obj.Screen;
+import com.utilis.game.gui.*;
+import com.utilis.game.obj.*;
 
 public class WorldCanvas extends ScrollingCanvas {
 
+	private static final long serialVersionUID = 1L;
+	
 	public WorldCanvas(Screen s) {
 		super(s);
 	}
