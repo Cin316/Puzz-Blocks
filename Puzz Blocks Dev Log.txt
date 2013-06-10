@@ -38,10 +38,15 @@ June 8, 2013
  
  -Created Puzz Blocks Github repository.
  -Created Eclipse project configured to use Github.
+ -Created some base files.
 
 June 9, 2013
  
  -Re-created Github repository and Eclipse link.
    -Is much neater.
    -Includes README.md and .gitignore in eclipse.
+   -Deleted old files in the process.
  -Added this to git repo.
+ -Added images to art folder.
+ -Wrote some incomplete Image reading code.
+
