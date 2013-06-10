@@ -50,3 +50,6 @@ June 9, 2013
  -Added images to art folder.
  -Wrote some incomplete Image reading code.
 
+June 10, 2013
+ 
+ -Finished writing Image reading code.
