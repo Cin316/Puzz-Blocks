@@ -5,7 +5,10 @@ import java.awt.Image;
 import com.utilis.game.obj.*;
 
 public class Block extends Tile {
-
+	
+	public static Image art;
+	public static CollisionBox collisionBox;
+	
 	public Block(CollisionBox c, int x, int y) {
 		super(c, x, y);
 	}
