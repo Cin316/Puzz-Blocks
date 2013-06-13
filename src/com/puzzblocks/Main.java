@@ -79,7 +79,7 @@ public class Main {
 	}
 	
 	/**
-	 * Reads text from a file and returns the files contents in a String.
+	 * Reads text from a file and returns the files contents in a String. "/n" replaces linebreaks.
 	 * @param file File to read text from.
 	 * @return String representing whole contents of file.
 	 */
