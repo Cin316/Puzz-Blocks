@@ -1,12 +1,10 @@
 package com.puzzblocks;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLDecoder;
+import java.awt.*;
+import java.io.*;
+import java.net.*;
 import javax.imageio.ImageIO;
+
 public class Main {
 	
 	public static void main(String[] args) {
@@ -80,4 +78,38 @@ public class Main {
 		return root.getAbsolutePath();
 	}
 	
+	/**
+	 * Reads text from a file and returns the files contents in a String.
+	 * @param file File to read text from.
+	 * @return String representing whole contents of file.
+	 */
+	public static String readTextFromFile(File file){
+		BufferedReader reader = null;
+		String line = "";
+		
+		//Create BufferedReader to read file.
+		try {
+			reader = new BufferedReader( new FileReader(file) );
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		//Read file line by line.
+		try {
+			while ((line = reader.readLine()) != null){ //Reads contents of line.
+				line += "/n"; //Adds linefeed (/n) between lines.
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return line;
+		
+	}
 }
