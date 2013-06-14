@@ -44,7 +44,7 @@ public class LevelLoader {
 		levelDataContents = Main.readTextFromFile(levelData);
 		
 		//Separates the lines of the level.cfg.
-		levelConfigLines = levelConfigContents.split("/n");
+		levelConfigLines = levelConfigContents.split("\n");
 		
 		//Evaluate properties of level.cfg.
 		for(String line : levelConfigLines){
@@ -74,7 +74,7 @@ public class LevelLoader {
 				}else if(key.equals("width")){
 					width = Integer.parseInt(value);
 				}else{
-					throw new InvalidLevelFormatException(s);
+					throw new InvalidLevelFormatException(s, "containing the key/value pair \"" + line + "\"." );
 				}
 				
 			}
@@ -86,14 +86,11 @@ public class LevelLoader {
 			throw new InvalidLevelFormatException(s);
 		}
 		
-		//Creates a World Canvas with specified properties.
-		world = new WorldCanvas(width, height);
-		
-		//Separate levelDataCintents into a 2D array.
-		levelDataMatrix = new String[width][height];
+		//Separate levelDataContents into a 2D array.
+		levelDataMatrix = new String[height][width];
 		
 		//Separate into lines.
-		levelDataLines = levelDataContents.split("/n");
+		levelDataLines = levelDataContents.split("\n");
 		
 		int lineNum = 0;
 		//Separate lines into characters.
@@ -108,14 +105,47 @@ public class LevelLoader {
 			//Remove first element, which is "";
 			lineArrayFixed = new String[lineArray.length-1];
 			
-			for(int i = 0; i>lineArrayFixed.length; i++){
+			for(int i = 0; i<lineArrayFixed.length; i++){
 				lineArrayFixed[i] = lineArray [i+1];
 			}
 			
 			//Adds fixed lineArray to levelDataMatrix.
-			lineArrayFixed = levelDataMatrix[lineNum];
+			levelDataMatrix[lineNum] = lineArrayFixed;
 			lineNum++;
 		}
+		
+		//Rotates levelDataMatrix
+	    int w = levelDataMatrix.length;
+	    int h = levelDataMatrix[0].length;
+	    String[][] ret = new String[h][w];
+	    for (int i = 0; i < h; ++i) {
+	        for (int j = 0; j < w; ++j) {
+	            ret[i][j] = levelDataMatrix[w - j - 1][i];
+	        }
+	    }
+	    levelDataMatrix = ret;
+	    
+	    //Flips levelDataMatrix vertically.
+	    String[][] transformedArray = new String[levelDataMatrix.length][levelDataMatrix[0].length];
+		
+		for(int i = 0; i<levelDataMatrix.length; i++ ){
+			int index = 0;
+			for ( int j = levelDataMatrix[0].length - 1; j > -1; j-- )
+			{
+				transformedArray[i][index] = levelDataMatrix[i][j];
+				index++;
+			}
+		}
+		levelDataMatrix = transformedArray;
+	    
+	    
+	    System.out.println("Height: " + height);
+	    System.out.println("Width: " + width);
+	    System.out.println("levelDataMatrix.length: " + levelDataMatrix.length);
+	    System.out.println("levelDataMatrix[0].length: " + levelDataMatrix[0].length);
+		
+		//Creates a World Canvas with specified properties.
+		world = new WorldCanvas(levelDataMatrix.length, levelDataMatrix[0].length);
 		
 		//Iterate through each character in matrix and add it to WorldCanvas's screen.
 		for(int x = 0; x<levelDataMatrix.length; x++){
@@ -130,13 +160,22 @@ public class LevelLoader {
 					Tile t = new Slime(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
 					world.getScreen().setTile(x, y, t);
 				}else if( lineData.equals("S") ){
-					Player player = new Player(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
+					Player player = new Player(GameConstants.CHARACTER_WIDTH, GameConstants.CHARACTER_HEIGHT);
+					player.setPos(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
+					player.setRealX(x*GameConstants.TILE_WIDTH);
+					player.setRealY(y*GameConstants.TILE_HEIGHT);
 					world.setCenterEntity(player);
 					world.add(player);
+				}else if( lineData.equals("E") ){
+					//Tile t = new Slime(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
+					//world.getScreen().setTile(x, y, t);
+				}else if( lineData.equals("o") ){
+					//Tile t = new Slime(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
+					//world.getScreen().setTile(x, y, t);
 				}else if( lineData.equals(" ") ){
 					//This is nothing, air.
 				}else{ //Add more here.
-					throw new InvalidLevelFormatException(s);
+					throw new InvalidLevelFormatException(s, "containing the character \"" + lineData + "\" in the level.data file");
 				}
 				
 			}
@@ -161,8 +200,11 @@ public class LevelLoader {
 		
 		private static final long serialVersionUID = 1L;
 		
-		public InvalidLevelFormatException(String s){
-			super("Level \"" + s + "\" is invalid.");
+		public InvalidLevelFormatException(String level){
+			super("Level \"" + level + "\" is invalid.");
+		}
+		public InvalidLevelFormatException(String level, String reason){
+			super("Level \"" + level + "\" is invalid, due to " + reason + ".");
 		}
 		
 		
