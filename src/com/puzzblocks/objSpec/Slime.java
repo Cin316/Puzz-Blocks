@@ -10,7 +10,7 @@ import com.utilis.game.obj.Tile;
 
 public class Slime extends Tile {
 	
-	public static Image art = Main.getArt("Tiles/Metal Block/Slime.gif");
+	public static Image art = Main.getArt("Tiles/Slime/Slime.gif");
 	public static CollisionBox collisionBox = new CollisionBox(GameConstants.TILE_WIDTH, GameConstants.TILE_HEIGHT, true);
 	
 	public Slime(int x, int y){
