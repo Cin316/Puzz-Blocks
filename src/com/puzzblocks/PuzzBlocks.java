@@ -1,8 +1,8 @@
 package com.puzzblocks;
 
+import com.puzzblocks.LevelLoader.InvalidLevelFormatException;
 import com.puzzblocks.obj.*;
 import com.utilis.game.gui.Window;
-import com.utilis.game.obj.CollisionBox;
 
 /**
  * A class use to represent an instance of the Puzz Blocks game.
@@ -10,17 +10,21 @@ import com.utilis.game.obj.CollisionBox;
  */
 public class PuzzBlocks {
 	
-	Player player;
 	WorldCanvas currentWorld;
-	Window puzzBlocksWindow;
+	Window loadedLevelWindow;
+	Level level;
 	
 	public PuzzBlocks(){
 		
-		player = new Player();
-		currentWorld = new WorldCanvas(5, 5);
-		currentWorld.setCenterEntity(player);
-		currentWorld.add(player);
-		puzzBlocksWindow = new Window(currentWorld);
+		try {
+			level = LevelLoader.loadLevel("Cool Art");
+		} catch (InvalidLevelFormatException e) {
+			e.printStackTrace();
+		}
+		
+		loadedLevelWindow =  new Window(level.getWorld());
+		loadedLevelWindow.setVisible(true);
+		
 	}
 	
 	/**
@@ -28,7 +32,7 @@ public class PuzzBlocks {
 	 */
 	public void close(){
 		
-		puzzBlocksWindow.setVisible(false);
+		loadedLevelWindow.setVisible(false);
 		System.exit(0);
 		
 	}
