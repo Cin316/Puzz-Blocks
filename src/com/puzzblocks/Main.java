@@ -34,7 +34,7 @@ public class Main {
 		
 		//Adds input String to filename.
 		fileLoc += s;
-		System.out.println(fileLoc);
+		
 		//Replaces the path's "/"'s with OS specific path separators.
 		//Creates a file from the complete path
 		File image =  new File(fileLoc);
