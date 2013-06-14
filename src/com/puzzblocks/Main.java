@@ -85,7 +85,7 @@ public class Main {
 	 */
 	public static String readTextFromFile(File file){
 		BufferedReader reader = null;
-		String line = "";
+		String text = "";
 		
 		//Create BufferedReader to read file.
 		try {
@@ -96,8 +96,17 @@ public class Main {
 		
 		//Read file line by line.
 		try {
-			while ((line += reader.readLine()) != null){ //Reads contents of line.
-				line += "/n"; //Adds linefeed (/n) between lines.
+			while (true){ //Reads contents of line.
+				
+				String line = reader.readLine();
+				
+				if(line != null){
+					text += line;
+				}else{
+					break;
+				}
+				
+				text += "\n"; //Adds linefeed (\n) between lines.
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -109,7 +118,7 @@ public class Main {
 			}
 		}
 		
-		return line;
+		return text;
 		
 	}
 }
