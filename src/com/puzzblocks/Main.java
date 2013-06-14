@@ -96,7 +96,7 @@ public class Main {
 		
 		//Read file line by line.
 		try {
-			while ((line = reader.readLine()) != null){ //Reads contents of line.
+			while ((line += reader.readLine()) != null){ //Reads contents of line.
 				line += "/n"; //Adds linefeed (/n) between lines.
 			}
 		} catch (IOException e) {
