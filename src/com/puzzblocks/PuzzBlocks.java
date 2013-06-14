@@ -17,7 +17,7 @@ public class PuzzBlocks {
 	public PuzzBlocks(){
 		
 		player = new Player(Main.getArt("Character/Character.png"), new CollisionBox(GameConstants.CHARACTER_WIDTH, GameConstants.CHARACTER_HEIGHT, true));
-		currentWorld = new WorldCanvas(5, 5, GameConstants.TILE_WIDTH, GameConstants.TILE_HEIGHT);
+		currentWorld = new WorldCanvas(5, 5);
 		currentWorld.setCenterEntity(player);
 		currentWorld.add(player);
 		puzzBlocksWindow = new Window(currentWorld);

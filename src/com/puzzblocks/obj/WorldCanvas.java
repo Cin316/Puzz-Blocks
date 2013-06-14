@@ -1,5 +1,6 @@
 package com.puzzblocks.obj;
 
+import com.puzzblocks.GameConstants;
 import com.utilis.game.gui.*;
 import com.utilis.game.obj.*;
 
@@ -10,8 +11,8 @@ public class WorldCanvas extends ScrollingCanvas {
 	public WorldCanvas(Screen s) {
 		super(s);
 	}
-	public WorldCanvas(int xTiles, int yTiles, int tWidth, int tHeight) {
-		super(xTiles, yTiles, tWidth, tHeight);
+	public WorldCanvas(int xTiles, int yTiles) {
+		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
 	}
 
 }
