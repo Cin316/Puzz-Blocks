@@ -65,3 +65,9 @@ June 11, 2013
  -Created MetalBlock class.
  -Seperated Main.getArt(String) code into two methods, one to get the art and another to get the Puzz Blocks root directory.
  -Started work on level loading code.
+ 
+June 13, 2013
+ 
+ -Added method to read text.
+ -Consolidated imports in Main class.
+ -Continued work on level loading code.
