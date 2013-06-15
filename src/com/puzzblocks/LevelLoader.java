@@ -23,6 +23,7 @@ public class LevelLoader {
 		int height = 0;
 		int width = 0;
 		WorldCanvas world;
+		Tile backgroundTile = null;
 		
 		//Get root Puzz Blocks directory.
 		dirPath = Main.getPuzzBlocksDirectory();
@@ -73,8 +74,20 @@ public class LevelLoader {
 					height = Integer.parseInt(value);
 				}else if(key.equals("width")){
 					width = Integer.parseInt(value);
+				}else if(key.equals("background-image")){
+					if(value.equals("M")){
+						backgroundTile = new MetalBlock(0,0);
+					}else if(value.equals("G")){
+						backgroundTile = new Slime(0,0);
+					}else if(value.equals("E")){
+						//backgroundTile = new Slime(0,0);
+					}else if(value.equals("o")){
+						//backgroundTile = new Slime(0,0);
+					}else{
+						throw new InvalidLevelFormatException(s, "setting the character \"" + value + "\" as the background image in the level.cfg file");
+					}
 				}else{
-					throw new InvalidLevelFormatException(s, "containing the key/value pair \"" + line + "\"." );
+					throw new InvalidLevelFormatException(s, "containing the key/value pair \"" + line + "\"" );
 				}
 				
 			}
@@ -82,8 +95,12 @@ public class LevelLoader {
 		}
 		
 		//Checks if any required value is not assigned.
-		if( !(height != 0 && width != 0 && levelName != "") ){
-			throw new InvalidLevelFormatException(s);
+		if(height == 0){
+			throw new InvalidLevelFormatException(s, "missing height in the level.cfg");
+		}else if(width == 0){
+			throw new InvalidLevelFormatException(s, "missing width in the level.cfg");
+		}else if(levelName == ""){
+			throw new InvalidLevelFormatException(s, "missing level-name in the level.cfg");
 		}
 		
 		//Separate levelDataContents into a 2D array.
@@ -138,7 +155,7 @@ public class LevelLoader {
 		levelDataMatrix = transformedArray;
 	    
 		//Creates a World Canvas with specified properties.
-		world = new WorldCanvas(levelDataMatrix.length, levelDataMatrix[0].length);
+		world = new WorldCanvas(levelDataMatrix.length, levelDataMatrix[0].length, backgroundTile);
 		
 		//Iterate through each character in matrix and add it to WorldCanvas's screen.
 		for(int x = 0; x<levelDataMatrix.length; x++){
