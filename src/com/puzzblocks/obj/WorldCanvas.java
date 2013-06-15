@@ -21,7 +21,9 @@ public class WorldCanvas extends ScrollingCanvas {
 	public WorldCanvas(Screen s, Tile t) {
 		super(s);
 		backgroundTile = t;
-		darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		if(backgroundTile != null){
+			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		}
 	}
 	public WorldCanvas(int xTiles, int yTiles) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
@@ -29,7 +31,9 @@ public class WorldCanvas extends ScrollingCanvas {
 	public WorldCanvas(int xTiles, int yTiles, Tile t) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
 		backgroundTile = t;
-		darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		if(backgroundTile != null){
+			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		}
 	}
 	
 	public Tile getBackgroundTile() {
@@ -37,7 +41,9 @@ public class WorldCanvas extends ScrollingCanvas {
 	}
 	public void setBackgroundTile(Tile backgroundTile) {
 		this.backgroundTile = backgroundTile;
-		darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		if(backgroundTile != null){
+			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		}
 	}
 	
 	public void draw(Graphics g){
