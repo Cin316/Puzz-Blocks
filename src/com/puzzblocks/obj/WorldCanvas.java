@@ -18,6 +18,7 @@ public class WorldCanvas extends ScrollingCanvas {
 	
 	public WorldCanvas(Screen s) {
 		super(s);
+		setUpCollisionGroup();
 	}
 	public WorldCanvas(Screen s, Tile t) {
 		super(s);
@@ -25,9 +26,11 @@ public class WorldCanvas extends ScrollingCanvas {
 		if(backgroundTile != null){
 			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
 		}
+		setUpCollisionGroup();
 	}
 	public WorldCanvas(int xTiles, int yTiles) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
+		setUpCollisionGroup();
 	}
 	public WorldCanvas(int xTiles, int yTiles, Tile t) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
@@ -35,6 +38,7 @@ public class WorldCanvas extends ScrollingCanvas {
 		if(backgroundTile != null){
 			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
 		}
+		setUpCollisionGroup();
 	}
 	
 	public Tile getBackgroundTile() {
@@ -44,6 +48,16 @@ public class WorldCanvas extends ScrollingCanvas {
 		this.backgroundTile = backgroundTile;
 		if(backgroundTile != null){
 			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		}
+	}
+	private void setUpCollisionGroup(){
+		for(int x = 0; x<getScreen().getNumOfTilesX(); x++){
+			for(int y = 0; y<getScreen().getNumOfTilesY(); y++){
+				
+				Tile sTile = getScreen().getTile(x, y);
+				collisionGroup.add(sTile);
+				
+			}
 		}
 	}
 	
