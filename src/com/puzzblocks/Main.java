@@ -1,6 +1,9 @@
 package com.puzzblocks;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.*;
 import java.net.*;
 import javax.imageio.ImageIO;
@@ -121,4 +124,16 @@ public class Main {
 		return text;
 		
 	}
+	
+	/**
+	 * Method to deep copy a BufferedImage.
+	 * @author SINTER
+	 */
+	public static BufferedImage deepCopy(BufferedImage bi) {
+		ColorModel cm = bi.getColorModel();
+		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		WritableRaster raster = bi.copyData(null);
+		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+	}
+	
 }
