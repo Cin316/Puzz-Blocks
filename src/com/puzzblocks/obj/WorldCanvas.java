@@ -12,6 +12,7 @@ import com.utilis.game.obj.*;
 public class WorldCanvas extends ScrollingCanvas {
 
 	private static final long serialVersionUID = 1L;
+	protected CollisionGroup collisionGroup = new CollisionGroup();
 	protected Tile backgroundTile;
 	protected Image darkenedTileImage;
 	
