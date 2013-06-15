@@ -127,7 +127,6 @@ public class LevelLoader {
 	    
 	    //Flips levelDataMatrix vertically.
 	    String[][] transformedArray = new String[levelDataMatrix.length][levelDataMatrix[0].length];
-		
 		for(int i = 0; i<levelDataMatrix.length; i++ ){
 			int index = 0;
 			for ( int j = levelDataMatrix[0].length - 1; j > -1; j-- )
@@ -138,12 +137,6 @@ public class LevelLoader {
 		}
 		levelDataMatrix = transformedArray;
 	    
-	    
-	    System.out.println("Height: " + height);
-	    System.out.println("Width: " + width);
-	    System.out.println("levelDataMatrix.length: " + levelDataMatrix.length);
-	    System.out.println("levelDataMatrix[0].length: " + levelDataMatrix[0].length);
-		
 		//Creates a World Canvas with specified properties.
 		world = new WorldCanvas(levelDataMatrix.length, levelDataMatrix[0].length);
 		
