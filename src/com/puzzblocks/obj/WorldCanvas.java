@@ -61,6 +61,11 @@ public class WorldCanvas extends ScrollingCanvas {
 		}
 	}
 	
+	public void add(Entity e){
+		super.add(e);
+		collisionGroup.add(e);
+	}
+	
 	public void draw(Graphics g){
 		
 		//Tile the backgroundTile if it exists.
@@ -80,9 +85,7 @@ public class WorldCanvas extends ScrollingCanvas {
 			
 		}
 		
-		paintTiles(g);
-		paintEntities(g);
-		paintHUD(g);
+		super.draw(g);
 		
 	}
 	
