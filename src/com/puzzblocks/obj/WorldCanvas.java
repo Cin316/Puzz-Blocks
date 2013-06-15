@@ -15,6 +15,7 @@ public class WorldCanvas extends ScrollingCanvas {
 	protected CollisionGroup collisionGroup = new CollisionGroup();
 	protected Tile backgroundTile;
 	protected Image darkenedTileImage;
+	protected Player player;
 	
 	public WorldCanvas(Screen s) {
 		super(s);
@@ -40,16 +41,6 @@ public class WorldCanvas extends ScrollingCanvas {
 		}
 		setUpCollisionGroup();
 	}
-	
-	public Tile getBackgroundTile() {
-		return backgroundTile;
-	}
-	public void setBackgroundTile(Tile backgroundTile) {
-		this.backgroundTile = backgroundTile;
-		if(backgroundTile != null){
-			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
-		}
-	}
 	private void setUpCollisionGroup(){
 		for(int x = 0; x<getScreen().getNumOfTilesX(); x++){
 			for(int y = 0; y<getScreen().getNumOfTilesY(); y++){
@@ -61,9 +52,32 @@ public class WorldCanvas extends ScrollingCanvas {
 		}
 	}
 	
+	public Tile getBackgroundTile() {
+		return backgroundTile;
+	}
+	public void setBackgroundTile(Tile backgroundTile) {
+		this.backgroundTile = backgroundTile;
+		if(backgroundTile != null){
+			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+		}
+	}
+	public Player getPlayer() {
+		return player;
+	}
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	
 	public void add(Entity e){
 		super.add(e);
 		collisionGroup.add(e);
+	}
+	
+	public void setCenterEntity(ScrollingEntity e){
+		super.setCenterEntity(e);
+		if(e instanceof Player){
+			this.setPlayer( (Player) e );
+		}
 	}
 	
 	public void draw(Graphics g){
