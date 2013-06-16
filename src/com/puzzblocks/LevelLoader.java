@@ -80,14 +80,14 @@ public class LevelLoader {
 					}else if(value.equals("G")){
 						backgroundTile = new Slime(0,0);
 					}else if(value.equals("E")){
-						//backgroundTile = new Slime(0,0);
+						backgroundTile = new DoorTop(0,0);
 					}else if(value.equals("o")){
-						//backgroundTile = new Slime(0,0);
+						backgroundTile = new DoorBottom(0,0);
 					}else{
 						throw new InvalidLevelFormatException(s, "setting the character \"" + value + "\" as the background image in the level.cfg file");
 					}
 				}else{
-					throw new InvalidLevelFormatException(s, "containing the key/value pair \"" + line + "\"" );
+					throw new InvalidLevelFormatException(s, "containing the invalid key/value pair \"" + line + "\"" );
 				}
 				
 			}
@@ -177,11 +177,11 @@ public class LevelLoader {
 					world.setCenterEntity(player);
 					world.add(player);
 				}else if( lineData.equals("E") ){
-					//Tile t = new Slime(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
-					//world.getScreen().setTile(x, y, t);
+					Tile t = new DoorTop(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
+					world.getScreen().setTile(x, y, t);
 				}else if( lineData.equals("o") ){
-					//Tile t = new Slime(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
-					//world.getScreen().setTile(x, y, t);
+					Tile t = new DoorBottom(x*GameConstants.TILE_WIDTH, y*GameConstants.TILE_HEIGHT);
+					world.getScreen().setTile(x, y, t);
 				}else if( lineData.equals(" ") ){
 					//This is nothing, air.
 				}else{ //Add more here.
