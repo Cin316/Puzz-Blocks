@@ -67,7 +67,12 @@ public class WorldCanvas extends ScrollingCanvas {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
+	public CollisionGroup getCollisionGroup() {
+		return collisionGroup;
+	}
+	public void setCollisionGroup(CollisionGroup collisionGroup) {
+		this.collisionGroup = collisionGroup;
+	}
 	public void add(Entity e){
 		super.add(e);
 		collisionGroup.add(e);
