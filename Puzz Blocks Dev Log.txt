@@ -78,3 +78,11 @@ June 14, 2013
  -Improved Player constructors.
  -Finished testing, debugging, and creating the level loading code.
  -Fixed Slime Image loading.
+ 
+June 15, 2013
+ 
+ -Added code to read a background image from level.cfg.
+ -Background image is now darkened.
+ -Added deepCopy(BufferedImage) method to Main.java.
+ -Started work on Physics.
+ -Added buggy Gravity support.
