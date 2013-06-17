@@ -29,7 +29,7 @@ public class Physics {
 		deltaSeconds = deltaTime/1000;
 		
 		//Apply gravity.
-		gravDistance = (int) (GameConstants.GRAVITY - deltaSeconds); //distance = speed * delta;
+		gravDistance = (int) (GameConstants.GRAVITY * deltaSeconds); //distance = speed * delta;
 		
 		wc.getPlayer().moveDown(gravDistance);
 		//Check collisions.
