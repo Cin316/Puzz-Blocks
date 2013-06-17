@@ -16,6 +16,8 @@ public class Physics {
 		long deltaTime; //Time between frames, in milliseconds.
 		long deltaSeconds;
 		int gravDistance;
+		int rightDistance;
+		int leftDistance;
 		
 		//Sets currentTime.
 		currentTime = System.currentTimeMillis();
@@ -36,14 +38,31 @@ public class Physics {
 		Collision gravCollision = wc.getCollisionGroup().checkCollision();
 		if(gravCollision.hasCollided()){
 			wc.getPlayer().moveUp(gravDistance);
-			System.out.println("Collision!");
 		}
 		
 		//Move right.
-		//Check collisions.
+		if(movingRight){
+			rightDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
+			
+			wc.getPlayer().moveRight(rightDistance);
+			//Check collisions.
+			Collision rightCollision = wc.getCollisionGroup().checkCollision();
+			if(rightCollision.hasCollided()){
+				wc.getPlayer().moveLeft(gravDistance);
+			}
+		}
 		
 		//Move left.
-		//Check collisions.
+		if(movingLeft){
+			leftDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
+			
+			wc.getPlayer().moveLeft(leftDistance);
+			//Check collisions.
+			Collision leftCollision = wc.getCollisionGroup().checkCollision();
+			if(leftCollision.hasCollided()){
+				wc.getPlayer().moveRight(gravDistance);
+			}
+		}
 		
 		//Sets time of lastFrame.
 		lastFrameTime = System.currentTimeMillis();
