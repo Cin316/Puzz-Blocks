@@ -86,3 +86,9 @@ June 15, 2013
  -Added deepCopy(BufferedImage) method to Main.java.
  -Started work on Physics.
  -Added buggy Gravity support.
+ 
+June 16, 2013
+ 
+ -Created placeholder door graphic.
+ -Added DoorTop and DoorBottom classes for these graphics.
+ -Added door support in level loading code.
