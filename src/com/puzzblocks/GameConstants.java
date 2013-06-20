@@ -15,7 +15,7 @@ public class GameConstants {
 	
 	public static final float GRAVITY = 128F; //Measured in pixels per second.
 	public static final float CHARACTER_MOVEMENT = 96F; //Measured in pixels per second.
-	public static final float JUMP_TIME = 1; //Measured in seconds.
+	public static final float JUMP_TIME = 1F; //Measured in seconds.
 	public static final float JUMP_MAX_HEIGHT = TILE_HEIGHT * 1.25F; //Measured in pixels.
 	
 }
