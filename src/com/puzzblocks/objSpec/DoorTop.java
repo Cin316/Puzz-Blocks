@@ -4,10 +4,10 @@ import java.awt.Image;
 
 import com.puzzblocks.GameConstants;
 import com.puzzblocks.Main;
+import com.puzzblocks.obj.Block;
 import com.utilis.game.obj.CollisionBox;
-import com.utilis.game.obj.Tile;
 
-public class DoorTop extends Tile {
+public class DoorTop extends Block {
 	
 	public static Image art = Main.getArt("Tiles/Door/DoorTop.png");
 	public static CollisionBox collisionBox = new CollisionBox(GameConstants.TILE_WIDTH, GameConstants.TILE_HEIGHT, false);

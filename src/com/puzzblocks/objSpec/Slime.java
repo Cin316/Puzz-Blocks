@@ -4,11 +4,11 @@ import java.awt.Image;
 
 import com.puzzblocks.GameConstants;
 import com.puzzblocks.Main;
+import com.puzzblocks.obj.Block;
 import com.puzzblocks.obj.Player;
 import com.utilis.game.obj.CollisionBox;
-import com.utilis.game.obj.Tile;
 
-public class Slime extends Tile {
+public class Slime extends Block {
 	
 	public static Image art = Main.getArt("Tiles/Slime/Slime.gif");
 	public static CollisionBox collisionBox = new CollisionBox(GameConstants.TILE_WIDTH, GameConstants.TILE_HEIGHT, true);
