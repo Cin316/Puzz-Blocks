@@ -92,3 +92,21 @@ June 16, 2013
  -Created placeholder door graphic.
  -Added DoorTop and DoorBottom classes for these graphics.
  -Added door support in level loading code.
+ 
+June 17, 2013
+ 
+ -Fixed major bug caused by subtracting instead of multiplying.
+ -Added incomplete, buggy Physics support for moving left and right.
+ 
+June 18, 2013
+ 
+ -Worked on some jump code.
+ 
+June 20, 2013
+ 
+ -Finished jumping code.
+ 
+June 23, 2013
+ 
+ -Added jumping collision detection.
+ -All classes that should be blocks are now subclasses of Block.
