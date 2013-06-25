@@ -11,14 +11,13 @@ public class WorldCanvas extends ScrollingCanvas {
 
 	private static final long serialVersionUID = 1L;
 	protected CollisionGroup collisionGroup;
-	private boolean collisionGroupNeedsUpdating;
 	protected Tile backgroundTile;
 	protected Image darkenedTileImage;
 	protected Player player;
 	
 	public WorldCanvas(Screen s) {
 		super(s);
-		setUpCollisionGroup();
+		updateCollisionGroup();
 	}
 	public WorldCanvas(Screen s, Tile t) {
 		super(s);
@@ -26,11 +25,11 @@ public class WorldCanvas extends ScrollingCanvas {
 		if(backgroundTile != null){
 			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
 		}
-		setUpCollisionGroup();
+		updateCollisionGroup();
 	}
 	public WorldCanvas(int xTiles, int yTiles) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
-		setUpCollisionGroup();
+		updateCollisionGroup();
 	}
 	public WorldCanvas(int xTiles, int yTiles, Tile t) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
@@ -38,9 +37,9 @@ public class WorldCanvas extends ScrollingCanvas {
 		if(backgroundTile != null){
 			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
 		}
-		setUpCollisionGroup();
+		updateCollisionGroup();
 	}
-	private void setUpCollisionGroup(){
+	public void updateCollisionGroup(){
 		
 		//Empties out the current collisionGroup.
 		collisionGroup = new CollisionGroup();
@@ -53,6 +52,11 @@ public class WorldCanvas extends ScrollingCanvas {
 				collisionGroup.add(sTile);
 				
 			}
+		}
+		
+		//Adds the Player to the collisionGroup.
+		if(player != null){
+			collisionGroup.add(getPlayer());
 		}
 	}
 	
@@ -70,21 +74,13 @@ public class WorldCanvas extends ScrollingCanvas {
 	}
 	public void setPlayer(Player player) {
 		this.player = player;
+		updateCollisionGroup();
 	}
 	public CollisionGroup getCollisionGroup() {
 		return collisionGroup;
 	}
 	public void setCollisionGroup(CollisionGroup collisionGroup) {
 		this.collisionGroup = collisionGroup;
-	}
-	
-	public Screen getScreen(){
-		collisionGroupNeedsUpdating = true;
-		return super.getScreen();
-	}
-	public void setScreen(Screen s){
-		collisionGroupNeedsUpdating = true;
-		super.setScreen(s);
 	}
 	
 	public void add(Entity e){
@@ -100,11 +96,6 @@ public class WorldCanvas extends ScrollingCanvas {
 	}
 	
 	public void draw(Graphics g){
-		
-		if(collisionGroupNeedsUpdating){
-			setUpCollisionGroup();
-			collisionGroupNeedsUpdating = false;
-		}
 		
 		//Tile the backgroundTile if it exists.
 		if(backgroundTile != null){

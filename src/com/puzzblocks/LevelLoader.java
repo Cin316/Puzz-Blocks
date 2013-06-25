@@ -191,6 +191,9 @@ public class LevelLoader {
 			}
 		}
 		
+		//Update the collisionGroup of world.
+		world.updateCollisionGroup();
+		
 		//Created new level with gathered informaton.
 		if(levelUnlock == ""){
 			level = new Level(levelName, world);

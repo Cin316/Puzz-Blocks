@@ -12,36 +12,42 @@ public class Physics {
 	protected static long lastFrameTime = 0L;
 	protected static long currentTime = 0L;
 	protected static int jumpBeginningHeight;
+	protected static int jumpPreviousFrameHeight = 0;
 	
 	public static void doPhysics(WorldCanvas wc){
 		
-		long deltaTime; //Time between frames, in milliseconds.
-		long deltaSeconds;
+		long deltaTime; //Time between frames, in nanoseconds.
+		double deltaSeconds;
 		int gravDistance;
 		int rightDistance;
 		int leftDistance;
 		int jumpDistance;
 		
 		//Sets currentTime.
-		currentTime = System.currentTimeMillis();
+		currentTime = System.nanoTime();
 		//Checks if lastFrameTime is set, and if not, sets it to current time.
 		if(lastFrameTime == 0L){
-			lastFrameTime = System.currentTimeMillis();
+			lastFrameTime = currentTime;
 		}
 		
 		//Calculates deltaTime.
 		deltaTime = currentTime - lastFrameTime;
-		deltaSeconds = deltaTime/1000;
+		deltaSeconds = deltaTime/1000000000D;
+		
+		//Updates collisionGroup.
+		wc.updateCollisionGroup();
 		
 		//Apply gravity.
 		if(jumping==false){
 			gravDistance = (int) (GameConstants.GRAVITY * deltaSeconds); //distance = speed * delta;
 			
 			wc.getPlayer().moveDown(gravDistance);
+			wc.updateCollisionGroup();
 			//Check collisions.
 			Collision gravCollision = wc.getCollisionGroup().checkCollision();
 			if(gravCollision.hasCollided()){
 				wc.getPlayer().moveUp(gravDistance);
+				wc.updateCollisionGroup();
 			}
 		}
 		//Move right.
@@ -49,10 +55,12 @@ public class Physics {
 			rightDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
 			
 			wc.getPlayer().moveRight(rightDistance);
+			wc.updateCollisionGroup();
 			//Check collisions.
 			Collision rightCollision = wc.getCollisionGroup().checkCollision();
 			if(rightCollision.hasCollided()){
 				wc.getPlayer().moveLeft(rightDistance);
+				wc.updateCollisionGroup();
 			}
 		}
 		
@@ -61,10 +69,12 @@ public class Physics {
 			leftDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
 			
 			wc.getPlayer().moveLeft(leftDistance);
+			wc.updateCollisionGroup();
 			//Check collisions.
 			Collision leftCollision = wc.getCollisionGroup().checkCollision();
 			if(leftCollision.hasCollided()){
 				wc.getPlayer().moveRight(leftDistance);
+				wc.updateCollisionGroup();
 			}
 		}
 		
@@ -78,6 +88,7 @@ public class Physics {
 				//If jump is just starting...
 				if(jumpCompleteness==0F){
 					jumpBeginningHeight = wc.getPlayer().getY();
+					jumpPreviousFrameHeight = jumpBeginningHeight;
 				}
 				
 				//Calculate how much to increase jumpCompleteness.
@@ -94,10 +105,13 @@ public class Physics {
 					float x = jumpCompleteness * 2;
 					jumpDistance = (int) (x * GameConstants.JUMP_MAX_HEIGHT);
 					wc.getPlayer().setHeight(jumpBeginningHeight + jumpDistance);
+					wc.updateCollisionGroup();
 					
 				}else if(jumpCompleteness>=0.5F){ //If in down part of jump...
 					float x = (1F - jumpCompleteness) * 2;
 					jumpDistance = (int) (x * GameConstants.JUMP_MAX_HEIGHT);
+					wc.getPlayer().setHeight(jumpBeginningHeight + jumpDistance);
+					wc.updateCollisionGroup();
 				}
 				
 				//If jump is complete.
@@ -106,12 +120,22 @@ public class Physics {
 					jumpBeginningHeight = 0;
 					jumping = false;
 				}
+				
+				//Check collisions.
+				Collision jumpCollision = wc.getCollisionGroup().checkCollision();
+				if(jumpCollision.hasCollided()){
+					wc.getPlayer().setHeight(jumpPreviousFrameHeight);
+					wc.updateCollisionGroup();
+					jumping = false;
+				}
+				jumpPreviousFrameHeight = wc.getPlayer().getY();
+				
 			}
 			
 		}
 		
 		//Sets time of lastFrame.
-		lastFrameTime = System.currentTimeMillis();
+		lastFrameTime = System.nanoTime();
 	}
 	
 	public static void setMovingLeft(boolean movingLeft) {
