@@ -2,8 +2,6 @@ package com.puzzblocks.obj;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 
 import com.puzzblocks.*;
 import com.utilis.game.gui.*;
@@ -12,7 +10,8 @@ import com.utilis.game.obj.*;
 public class WorldCanvas extends ScrollingCanvas {
 
 	private static final long serialVersionUID = 1L;
-	protected CollisionGroup collisionGroup = new CollisionGroup();
+	protected CollisionGroup collisionGroup;
+	private boolean collisionGroupNeedsUpdating;
 	protected Tile backgroundTile;
 	protected Image darkenedTileImage;
 	protected Player player;
@@ -42,6 +41,11 @@ public class WorldCanvas extends ScrollingCanvas {
 		setUpCollisionGroup();
 	}
 	private void setUpCollisionGroup(){
+		
+		//Empties out the current collisionGroup.
+		collisionGroup = new CollisionGroup();
+		
+		//Adds tile from the Screen into the collisionGroup.
 		for(int x = 0; x<getScreen().getNumOfTilesX(); x++){
 			for(int y = 0; y<getScreen().getNumOfTilesY(); y++){
 				
@@ -73,6 +77,16 @@ public class WorldCanvas extends ScrollingCanvas {
 	public void setCollisionGroup(CollisionGroup collisionGroup) {
 		this.collisionGroup = collisionGroup;
 	}
+	
+	public Screen getScreen(){
+		collisionGroupNeedsUpdating = true;
+		return super.getScreen();
+	}
+	public void setScreen(Screen s){
+		collisionGroupNeedsUpdating = true;
+		super.setScreen(s);
+	}
+	
 	public void add(Entity e){
 		super.add(e);
 		collisionGroup.add(e);
@@ -86,6 +100,11 @@ public class WorldCanvas extends ScrollingCanvas {
 	}
 	
 	public void draw(Graphics g){
+		
+		if(collisionGroupNeedsUpdating){
+			setUpCollisionGroup();
+			collisionGroupNeedsUpdating = false;
+		}
 		
 		//Tile the backgroundTile if it exists.
 		if(backgroundTile != null){
@@ -104,7 +123,7 @@ public class WorldCanvas extends ScrollingCanvas {
 			
 		}
 		
-		//Physics.doPhysics(this);
+		Physics.doPhysics(this);
 		
 		super.draw(g);
 		
