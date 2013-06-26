@@ -114,8 +114,6 @@ public class WorldCanvas extends ScrollingCanvas {
 			
 		}
 		
-		Physics.doPhysics(this);
-		
 		super.draw(g);
 		
 	}

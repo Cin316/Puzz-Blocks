@@ -11,12 +11,12 @@ import com.utilis.game.gui.Window;
  */
 public class PuzzBlocks {
 	
-	WorldCanvas currentWorld;
-	Window loadedLevelWindow;
-	Level level;
+	protected WorldCanvas currentWorld;
+	protected Window loadedLevelWindow;
+	protected Level level;
 	private long desiredFPS = 60;
 	private long desiredDeltaLoop = (1000*1000*1000)/desiredFPS;
-	boolean running = true;
+	protected boolean running = true;
 	
 	public PuzzBlocks(){
 		
@@ -33,7 +33,7 @@ public class PuzzBlocks {
 		
 	}
 	
-	public void animate(){
+	private void animate(){
 		
 		long beginLoopTime;
 		long endLoopTime;
@@ -44,7 +44,8 @@ public class PuzzBlocks {
 		while(running){
 			beginLoopTime = System.nanoTime();
 			
-			loadedLevelWindow.repaint();
+			Physics.doPhysics(currentWorld);
+			loadedLevelWindow.repaint(); //Render
 			fps++;
 			
 			//Calculate fps.
