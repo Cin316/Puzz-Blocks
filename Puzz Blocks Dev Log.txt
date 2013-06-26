@@ -110,3 +110,9 @@ June 23, 2013
  
  -Added jumping collision detection.
  -All classes that should be blocks are now subclasses of Block.
+ 
+June 25, 2013
+ 
+ -Debugging Physics code.
+   -Fixed major bug which would cause the collisionGroup of a WorldCanvas to never get assigned any Colliders.
+   
