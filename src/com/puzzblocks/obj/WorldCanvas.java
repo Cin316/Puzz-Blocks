@@ -14,6 +14,7 @@ public class WorldCanvas extends ScrollingCanvas {
 	protected Tile backgroundTile;
 	protected Image darkenedTileImage;
 	protected Player player;
+	protected PuzzBlocks game;
 	
 	public WorldCanvas(Screen s) {
 		super(s);
@@ -82,6 +83,12 @@ public class WorldCanvas extends ScrollingCanvas {
 	public void setCollisionGroup(CollisionGroup collisionGroup) {
 		this.collisionGroup = collisionGroup;
 	}
+	public PuzzBlocks getGame() {
+		return game;
+	}
+	public void setGame(PuzzBlocks game) {
+		this.game = game;
+	}
 	
 	public void add(Entity e){
 		super.add(e);
@@ -115,6 +122,17 @@ public class WorldCanvas extends ScrollingCanvas {
 		}
 		
 		super.draw(g);
+		
+		//Show FPS if there is a reference to PuzzBlocks game.
+		if(game != null){
+			Color oldColor = g.getColor();
+			g.setColor(Color.red);
+			
+			g.setFont( new Font(GameConstants.FPS_FONT, Font.BOLD, GameConstants.FPS_FONT_SIZE) );
+			g.drawString(game.getFPS() + "", 0, (int)(GameConstants.FPS_FONT_SIZE * 0.75) ); // (+ "") converts int to String.
+			
+			g.setColor(oldColor);
+		}
 		
 	}
 	

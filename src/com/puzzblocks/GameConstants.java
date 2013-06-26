@@ -11,6 +11,9 @@ public class GameConstants {
 	public static final int TILE_WIDTH = 64;
 	public static final int TILE_HEIGHT = 64;
 	
+	public static final String FPS_FONT = "Times New Roman";
+	public static final int FPS_FONT_SIZE = 20;
+	
 	public static final int DARKENING_VALUE = 10;
 	
 	public static final int MAX_FPS = 120;
