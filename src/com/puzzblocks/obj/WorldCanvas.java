@@ -13,32 +13,42 @@ public class WorldCanvas extends ScrollingCanvas {
 	protected CollisionGroup collisionGroup;
 	protected Tile backgroundTile;
 	protected Image darkenedTileImage;
+	protected Image tileImage;
 	protected Player player;
 	protected PuzzBlocks game;
+	protected Rectangle levelArea;
+	private boolean secondRepaint = false;
+	private boolean firstRepaint = false;
 	
 	public WorldCanvas(Screen s) {
 		super(s);
 		updateCollisionGroup();
+		createLevelAreaRect();
 	}
 	public WorldCanvas(Screen s, Tile t) {
 		super(s);
 		backgroundTile = t;
 		if(backgroundTile != null){
 			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+			tileImage = Main.deepCopy( (BufferedImage) backgroundTile.getImage() );
 		}
 		updateCollisionGroup();
+		createLevelAreaRect();
 	}
 	public WorldCanvas(int xTiles, int yTiles) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
 		updateCollisionGroup();
+		createLevelAreaRect();
 	}
 	public WorldCanvas(int xTiles, int yTiles, Tile t) {
 		super(xTiles, yTiles, GameConstants.TILE_WIDTH, GameConstants.TILE_WIDTH);
 		backgroundTile = t;
 		if(backgroundTile != null){
 			darkenedTileImage = darkenImage( Main.deepCopy( (BufferedImage) backgroundTile.getImage() ) );
+			tileImage = Main.deepCopy( (BufferedImage) backgroundTile.getImage() );
 		}
 		updateCollisionGroup();
+		createLevelAreaRect();
 	}
 	public void updateCollisionGroup(){
 		
@@ -60,6 +70,17 @@ public class WorldCanvas extends ScrollingCanvas {
 			collisionGroup.add(getPlayer());
 		}
 	}
+	private void createLevelAreaRect(){
+		
+		int w;
+		int h;
+		
+		w = screen.getNumOfTilesX() * screen.getTileWidth();
+		h = screen.getNumOfTilesY() * screen.getTileHeight();
+		
+		levelArea = new Rectangle( (GameConstants.TILE_WIDTH*-1)+1, (GameConstants.TILE_HEIGHT*-1)+1, w, h );
+		
+	}
 	
 	public Tile getBackgroundTile() {
 		return backgroundTile;
@@ -75,6 +96,9 @@ public class WorldCanvas extends ScrollingCanvas {
 	}
 	public void setPlayer(Player player) {
 		this.player = player;
+		
+		centerAlignPlayer();
+		
 		updateCollisionGroup();
 	}
 	public CollisionGroup getCollisionGroup() {
@@ -110,6 +134,15 @@ public class WorldCanvas extends ScrollingCanvas {
 		return smallColliders;
 	}
 	
+	public void centerAlignPlayer(){
+		
+		if(player!=null){
+			player.setRealX( (this.getWidth() - player.getWidth()) /2 );
+			player.setRealY( (this.getHeight() - player.getHeight()) /2 );
+		}
+		
+	}
+	
 	public void add(Entity e){
 		super.add(e);
 		collisionGroup.add(e);
@@ -121,8 +154,22 @@ public class WorldCanvas extends ScrollingCanvas {
 			this.setPlayer( (Player) e );
 		}
 	}
+	public void setScreen(Screen s){
+		super.setScreen(s);
+		createLevelAreaRect();
+	}
 	
 	public void draw(Graphics g){
+		
+		//Center align the player during second repaint
+		if(firstRepaint==false){
+			firstRepaint = true;
+		}
+		if(secondRepaint==false&&firstRepaint==true){
+			
+			centerAlignPlayer();
+			secondRepaint = true;
+		}
 		
 		//Tile the backgroundTile if it exists.
 		if(backgroundTile != null){
@@ -134,15 +181,23 @@ public class WorldCanvas extends ScrollingCanvas {
 			
 			// Tile the image to fill our area.
 			if(player != null){ //Use player offsets.
-				for (int x = 0; x < width; x += imageW){
-					for (int y = 0; y < height; y += imageH){
-						g.drawImage(darkenedTileImage, x-offsetX, y-offsetY, this);
+				for (int x = roundDownWidth(offsetX)-GameConstants.TILE_WIDTH; x <= roundUpWidth(offsetX + width); x += imageW){
+					for (int y = roundDownHeight(offsetY)-GameConstants.TILE_HEIGHT; y <= roundUpHeight(offsetY + height); y += imageH){
+						if(levelArea.contains(x, y)){
+							g.drawImage(darkenedTileImage, x-offsetX, y-offsetY, this);
+						}else{
+							g.drawImage(tileImage, x-offsetX, y-offsetY, this);
+						}
 					}
 				}
 			}else{
-				for (int x = 0; x < width; x += imageW){
-					for (int y = 0; y < height; y += imageH){
-						g.drawImage(darkenedTileImage, x, y, this);
+				for (int x = 0; x <= width; x += imageW){
+					for (int y = 0; y <= height; y += imageH){
+						if(levelArea.contains(x, y)){
+							g.drawImage(darkenedTileImage, x, y, this);
+						}else{
+							g.drawImage(tileImage, x, y, this);
+						}
 					}
 				}
 			}
@@ -164,6 +219,23 @@ public class WorldCanvas extends ScrollingCanvas {
 			}
 		}
 		
+	}
+	
+	protected int roundUpWidth(int i){
+		double out = i/GameConstants.TILE_WIDTH;
+		return (int) Math.ceil(out)*GameConstants.TILE_WIDTH;
+	}
+	protected int roundUpHeight(int i){
+		double out = i/GameConstants.TILE_HEIGHT;
+		return (int) Math.ceil(out)*GameConstants.TILE_HEIGHT;
+	}
+	protected int roundDownWidth(int i){
+		double out = i/GameConstants.TILE_WIDTH;
+		return (int) Math.floor(out)*GameConstants.TILE_WIDTH;
+	}
+	protected int roundDownHeight(int i){
+		double out = i/GameConstants.TILE_HEIGHT;
+		return (int) Math.floor(out)*GameConstants.TILE_HEIGHT;
 	}
 	
 	protected Image darkenImage(Image i){
