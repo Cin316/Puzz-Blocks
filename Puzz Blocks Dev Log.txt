@@ -115,4 +115,11 @@ June 25, 2013
  
  -Debugging Physics code.
    -Fixed major bug which would cause the collisionGroup of a WorldCanvas to never get assigned any Colliders.
-   
+ -Added animation code to PuzzBlocks class.
+ 
+June 26, 2013
+ 
+ -Cleaned up animation and WorldCanvas code.
+ -Added FPS counter.
+ -Fixed bug with background tiles not syncing with grid.
+ -Started fixing buggy gravity.
