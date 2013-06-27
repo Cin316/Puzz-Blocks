@@ -12,6 +12,16 @@ import javax.imageio.ImageIO;
 
 public class Main {
 	
+	public static final String[] systemPropertiesToGet = {
+		"user.home",
+		"path.separator",
+		"os.name",
+		"os.arch",
+		"os.version",
+		"java.vendor",
+		"java.version",
+		};
+	
 	public static void main(String[] args) {
 		
 		if(GameConstants.DEBUG_MODE){
@@ -29,10 +39,20 @@ public class Main {
 				}
 				System.out.println(f.getName() + "==" + obj.toString());
 			}
+			
+			//Gets System info.
+			for(String property : systemPropertiesToGet){
+				System.out.print(property + "==");
+				System.out.println(System.getProperty(property));
+			}
+			
 		}
 		
 		PuzzBlocks game = new PuzzBlocks();
 		//game.close();
+		if(GameConstants.DEBUG_MODE){
+			System.out.println("Closing Puzz Blocks...");
+		}
 		
 	}
 	
