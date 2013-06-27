@@ -1,5 +1,6 @@
 package com.puzzblocks;
 
+import com.puzzblocks.obj.Player;
 import com.puzzblocks.obj.WorldCanvas;
 import com.utilis.game.obj.CollisionGroup.Collision;
 
@@ -40,27 +41,33 @@ public class Physics {
 		//Apply gravity.
 		if(jumping==false){
 			gravDistance = (int) (GameConstants.GRAVITY * deltaSeconds); //distance = speed * delta;
+						
+			Player ghostPlayer = new Player();
+			Player player = wc.getPlayer();
+			ghostPlayer.setPos(player.getX(), player.getY());
 			
-			wc.getPlayer().moveDown(gravDistance);
-			wc.updateCollisionGroup();
+			ghostPlayer.moveDown(gravDistance);
+			
 			//Check collisions.
-			Collision gravCollision = wc.getCollisionGroup().checkCollision();
-			if(gravCollision.hasCollided()){
-				wc.getPlayer().moveUp(gravDistance);
-				wc.updateCollisionGroup();
+			Collision gravCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
+			if( !gravCollision.hasCollided() ){
+				player.moveDown(gravDistance);
 			}
 		}
 		//Move right.
 		if(movingRight){
 			rightDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
 			
-			wc.getPlayer().moveRight(rightDistance);
-			wc.updateCollisionGroup();
+			Player ghostPlayer = new Player();
+			Player player = wc.getPlayer();
+			ghostPlayer.setPos(player.getX(), player.getY());
+			
+			ghostPlayer.moveRight(rightDistance);
+			
 			//Check collisions.
-			Collision rightCollision = wc.getCollisionGroup().checkCollision();
-			if(rightCollision.hasCollided()){
-				wc.getPlayer().moveLeft(rightDistance);
-				wc.updateCollisionGroup();
+			Collision gravCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
+			if( !gravCollision.hasCollided() ){
+				player.moveRight(rightDistance);
 			}
 		}
 		
@@ -68,13 +75,16 @@ public class Physics {
 		if(movingLeft){
 			leftDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
 			
-			wc.getPlayer().moveLeft(leftDistance);
-			wc.updateCollisionGroup();
+			Player ghostPlayer = new Player();
+			Player player = wc.getPlayer();
+			ghostPlayer.setPos(player.getX(), player.getY());
+			
+			ghostPlayer.moveLeft(leftDistance);
+			
 			//Check collisions.
-			Collision leftCollision = wc.getCollisionGroup().checkCollision();
-			if(leftCollision.hasCollided()){
-				wc.getPlayer().moveRight(leftDistance);
-				wc.updateCollisionGroup();
+			Collision gravCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
+			if( !gravCollision.hasCollided() ){
+				player.moveLeft(leftDistance);
 			}
 		}
 		
