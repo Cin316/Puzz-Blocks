@@ -5,12 +5,31 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.net.*;
+
 import javax.imageio.ImageIO;
 
 public class Main {
 	
 	public static void main(String[] args) {
+		
+		if(GameConstants.DEBUG_MODE){
+			System.out.println("Starting up Puzz Blocks...");
+			
+			//Prints out every field and its value of GameConstants.
+			for(Field f : GameConstants.class.getDeclaredFields()){
+				Object obj = null;
+				try {
+					obj = f.get(obj);
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+				System.out.println(f.getName() + "==" + obj.toString());
+			}
+		}
 		
 		PuzzBlocks game = new PuzzBlocks();
 		//game.close();
@@ -49,6 +68,9 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		if(GameConstants.DEBUG_MODE){
+			System.out.println("Sucessfully loaded image: " + image.getAbsolutePath());
+		}
 		
 		return i;
 	}
@@ -119,6 +141,10 @@ public class Main {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		if(GameConstants.DEBUG_MODE){
+			System.out.println("Sucessfully loaded file: " + file);
 		}
 		
 		return text;
