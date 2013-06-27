@@ -2,6 +2,8 @@ package com.puzzblocks;
 
 public class GameConstants {
 	
+	public static final boolean DEBUG_MODE = true;
+	
 	public static final String ART_DIRECTORY = "art";
 	public static final String LEVELS_DIRECTORY = "data/levels";
 	
