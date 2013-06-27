@@ -18,7 +18,7 @@ public class GameConstants {
 	
 	public static final int DARKENING_VALUE = 10;
 	
-	public static final int MAX_FPS = 60;
+	public static final int MAX_FPS = 110;
 	
 	public static final float GRAVITY = 128F; //Measured in pixels per second.
 	public static final float CHARACTER_MOVEMENT = 96F; //Measured in pixels per second.
