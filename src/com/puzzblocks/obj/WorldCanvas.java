@@ -90,6 +90,26 @@ public class WorldCanvas extends ScrollingCanvas {
 		this.game = game;
 	}
 	
+	public CollisionGroup getCollisionGroupFromCollider(Collider c){
+		
+		CollisionGroup smallColliders = new CollisionGroup();
+		smallColliders.add(c);
+		
+		//Add each tile that intersects with the Player.
+		for(int x = 0; x<getScreen().getNumOfTilesX(); x++){
+			for(int y = 0; y<getScreen().getNumOfTilesY(); y++){
+				
+				Tile sTile = getScreen().getTile(x, y);
+				if( sTile.getRectangle().intersects( c.getRectangle() ) ){
+					smallColliders.add(sTile);
+				}
+				
+			}
+		}
+		
+		return smallColliders;
+	}
+	
 	public void add(Entity e){
 		super.add(e);
 		collisionGroup.add(e);
@@ -113,9 +133,17 @@ public class WorldCanvas extends ScrollingCanvas {
 			int imageH = darkenedTileImage.getHeight(this);
 			
 			// Tile the image to fill our area.
-			for (int x = 0; x < width; x += imageW){
-				for (int y = 0; y < height; y += imageH){
-					g.drawImage(darkenedTileImage, x, y, this);
+			if(player != null){ //Use player offsets.
+				for (int x = 0; x < width; x += imageW){
+					for (int y = 0; y < height; y += imageH){
+						g.drawImage(darkenedTileImage, x-offsetX, y-offsetY, this);
+					}
+				}
+			}else{
+				for (int x = 0; x < width; x += imageW){
+					for (int y = 0; y < height; y += imageH){
+						g.drawImage(darkenedTileImage, x, y, this);
+					}
 				}
 			}
 			
@@ -124,14 +152,16 @@ public class WorldCanvas extends ScrollingCanvas {
 		super.draw(g);
 		
 		//Show FPS if there is a reference to PuzzBlocks game.
-		if(game != null){
-			Color oldColor = g.getColor();
-			g.setColor(Color.red);
-			
-			g.setFont( new Font(GameConstants.FPS_FONT, Font.BOLD, GameConstants.FPS_FONT_SIZE) );
-			g.drawString(game.getFPS() + "", 0, (int)(GameConstants.FPS_FONT_SIZE * 0.75) ); // (+ "") converts int to String.
-			
-			g.setColor(oldColor);
+		if(GameConstants.DEBUG_MODE){
+			if(game != null){
+				Color oldColor = g.getColor();
+				g.setColor(Color.red);
+				
+				g.setFont( new Font(GameConstants.FPS_FONT, Font.BOLD, GameConstants.FPS_FONT_SIZE) );
+				g.drawString("FPS: " + game.getFPS(), 0, (int)(GameConstants.FPS_FONT_SIZE * 0.75) ); // (+ "") converts int to String.
+				
+				g.setColor(oldColor);
+			}
 		}
 		
 	}
