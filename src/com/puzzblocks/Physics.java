@@ -1,7 +1,7 @@
 package com.puzzblocks;
 
+import com.puzzblocks.gui.WorldCanvas;
 import com.puzzblocks.obj.Player;
-import com.puzzblocks.obj.WorldCanvas;
 import com.utilis.game.obj.CollisionGroup.Collision;
 
 public class Physics {

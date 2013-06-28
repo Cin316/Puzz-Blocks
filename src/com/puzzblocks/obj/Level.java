@@ -1,5 +1,7 @@
 package com.puzzblocks.obj;
 
+import com.puzzblocks.gui.WorldCanvas;
+
 public class Level {
 	
 	String name;

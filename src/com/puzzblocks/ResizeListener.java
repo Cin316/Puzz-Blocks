@@ -11,9 +11,9 @@ public class ResizeListener extends ComponentAdapter {
 	protected WorldCanvas world;
 	protected Window parent;
 	
-	public ResizeListener(WorldCanvas w, Window parent) {
-		world = w;
-		this.parent = parent;
+	public ResizeListener(PuzzBlocks game) {
+		world = game.getCurrentWorld();
+		parent = game.getLoadedLevelWindow();
 		Main.debugPrint("GRAPHICS", "ResizeListener was successfully created.");
 	}
 	

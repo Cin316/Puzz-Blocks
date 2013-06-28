@@ -1,7 +1,13 @@
 package com.puzzblocks;
 
+import java.awt.BorderLayout;
+import java.awt.Frame;
+
+import javax.swing.JFrame;
+
 import com.puzzblocks.LevelLoader.InvalidLevelFormatException;
 import com.puzzblocks.control.KeyboardController;
+import com.puzzblocks.gui.WorldCanvas;
 import com.puzzblocks.obj.*;
 import com.utilis.game.gui.Window;
 
@@ -32,11 +38,11 @@ public class PuzzBlocks {
 
 		currentWorld = level.getWorld();
 
-		loadedLevelWindow = new Window(level.getWorld());
+		loadedLevelWindow = new Window(currentWorld);
 		loadedLevelWindow.setTitle(level.getName());
 		loadedLevelWindow.setVisible(true);
-		loadedLevelWindow.setResizable(false);
 		loadedLevelWindow.addKeyListener(new KeyboardController(this));
+		loadedLevelWindow.addComponentListener(new ResizeListener(this));
 
 		((WorldCanvas) loadedLevelWindow.getCanvas()).setGame(this);
 

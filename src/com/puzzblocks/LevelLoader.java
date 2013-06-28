@@ -1,8 +1,9 @@
 package com.puzzblocks;
 
 import java.io.File;
-import com.utilis.game.obj.*;
 
+import com.utilis.game.obj.*;
+import com.puzzblocks.gui.WorldCanvas;
 import com.puzzblocks.obj.*;
 import com.puzzblocks.objSpec.*;
 
