@@ -24,7 +24,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-	
+		Main.debugPrint("INFO", "Made using UtiliGame " + com.utilis.game.Execute.version);
+		Main.debugPrint("INFO", "Made using Utilis " + com.utilis.Utilis.version);
+		
 		Main.debugPrint("INFO", "Starting up Puzz Blocks...");
 		
 		//Prints out every field and its value of GameConstants.
