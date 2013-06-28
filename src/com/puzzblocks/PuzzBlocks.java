@@ -1,6 +1,7 @@
 package com.puzzblocks;
 
 import com.puzzblocks.LevelLoader.InvalidLevelFormatException;
+import com.puzzblocks.control.KeyboardController;
 import com.puzzblocks.obj.*;
 import com.utilis.game.gui.Window;
 
@@ -35,6 +36,7 @@ public class PuzzBlocks {
 		loadedLevelWindow.setTitle(level.getName());
 		loadedLevelWindow.setVisible(true);
 		loadedLevelWindow.setResizable(false);
+		loadedLevelWindow.addKeyListener(new KeyboardController(this));
 
 		((WorldCanvas) loadedLevelWindow.getCanvas()).setGame(this);
 
@@ -62,6 +64,12 @@ public class PuzzBlocks {
 				FPS = fps;
 				fps = 0;
 				lastSecond = beginLoopTime;
+				
+				if(GameConstants.DEBUG_MODE){
+					if(FPS+12<GameConstants.MAX_FPS){
+						Main.debugPrint("GRAPHICS", "FPS is much lower than the max FPS!  Currently getting " + FPS + " FPS.");
+					}
+				}
 			}
 
 			endLoopTime = System.nanoTime();

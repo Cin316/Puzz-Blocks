@@ -4,6 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import com.puzzblocks.GameConstants;
+import com.puzzblocks.Main;
 import com.puzzblocks.Physics;
 import com.puzzblocks.PuzzBlocks;
 
@@ -13,9 +14,8 @@ public class KeyboardController extends KeyAdapter {
 	
 	public KeyboardController(PuzzBlocks pb) {
 		game = pb;
-		if(GameConstants.DEBUG_MODE){
-			System.out.println("[KEYBOARD] KeyboardController was successfully created.");
-		}
+		Main.debugPrint("KEYBOARD", "KeyboardController was successfully created.");
+		
 	}
 	
 	public void keyPressed(KeyEvent e){

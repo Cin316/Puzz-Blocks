@@ -24,35 +24,32 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		if(GameConstants.DEBUG_MODE){
-			System.out.println("Starting up Puzz Blocks...");
-			
-			//Prints out every field and its value of GameConstants.
-			for(Field f : GameConstants.class.getDeclaredFields()){
-				Object obj = null;
-				try {
-					obj = f.get(obj);
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-				System.out.println(f.getName() + "==" + obj.toString());
+	
+		Main.debugPrint("INFO", "Starting up Puzz Blocks...");
+		
+		//Prints out every field and its value of GameConstants.
+		for(Field f : GameConstants.class.getDeclaredFields()){
+			Object obj = null;
+			try {
+				obj = f.get(obj);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
 			}
-			
-			//Gets System info.
-			for(String property : systemPropertiesToGet){
-				System.out.print(property + "==");
-				System.out.println(System.getProperty(property));
-			}
-			
+			Main.debugPrint("VAR", f.getName() + "==" + obj.toString());
 		}
+		
+		//Gets System info.
+		for(String property : systemPropertiesToGet){
+			Main.debugPrint("VAR", property + "==" + System.getProperty(property));
+		}
+		
+	
 		
 		PuzzBlocks game = new PuzzBlocks();
 		//game.close();
-		if(GameConstants.DEBUG_MODE){
-			System.out.println("Closing Puzz Blocks...");
-		}
+		Main.debugPrint("INFO", "Closing Puzz Blocks...");
 		
 	}
 	
@@ -88,9 +85,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		if(GameConstants.DEBUG_MODE){
-			System.out.println("Sucessfully loaded image: " + image.getAbsolutePath());
-		}
+		Main.debugPrint("I/O", "Successfully loaded image: " + image.getAbsolutePath());
 		
 		return i;
 	}
@@ -163,9 +158,7 @@ public class Main {
 			}
 		}
 		
-		if(GameConstants.DEBUG_MODE){
-			System.out.println("Sucessfully loaded file: " + file);
-		}
+		Main.debugPrint("I/O", "Successfully loaded file: " + file);
 		
 		return text;
 		
@@ -180,6 +173,12 @@ public class Main {
 		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
 		WritableRaster raster = bi.copyData(null);
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+	}
+	
+	public static void debugPrint(String name, String message){
+		if(GameConstants.DEBUG_MODE){
+			System.out.println("[" + name + "] " + message);
+		}
 	}
 	
 }
