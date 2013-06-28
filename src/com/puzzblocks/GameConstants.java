@@ -32,5 +32,6 @@ public class GameConstants {
 	public static final int KEY_LEFT = KeyEvent.VK_A;
 	public static final int KEY_RIGHT = KeyEvent.VK_D;
 	public static final int KEY_JUMP = KeyEvent.VK_SPACE;
+	public static final int KEY_FLY_TOGGLE = KeyEvent.VK_F;
 	
 }
