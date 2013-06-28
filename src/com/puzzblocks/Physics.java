@@ -8,6 +8,9 @@ public class Physics {
 	
 	protected static boolean movingLeft = false;
 	protected static boolean movingRight = false;
+	protected static boolean movingUp = false;
+	protected static boolean movingDown = false;
+	protected static boolean flyEnabled = false;
 	protected static boolean jumping = false;
 	protected static float jumpCompleteness = 0F;
 	protected static long lastFrameTime = 0L;
@@ -23,6 +26,8 @@ public class Physics {
 		int rightDistance;
 		int leftDistance;
 		int jumpDistance;
+		int upDistance;
+		int downDistance;
 		
 		//Sets currentTime.
 		currentTime = System.nanoTime();
@@ -39,7 +44,7 @@ public class Physics {
 		wc.updateCollisionGroup();
 		
 		//Apply gravity.
-		if(jumping==false){
+		if(jumping==false&&flyEnabled==false){
 			gravDistance = (int) (GameConstants.GRAVITY * deltaSeconds); //distance = speed * delta;
 						
 			Player ghostPlayer = new Player();
@@ -88,6 +93,40 @@ public class Physics {
 			}
 		}
 		
+		//Move up.
+		if(movingUp&&flyEnabled){
+			upDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
+			
+			Player ghostPlayer = new Player();
+			Player player = wc.getPlayer();
+			ghostPlayer.setPos(player.getX(), player.getY());
+			
+			ghostPlayer.moveUp(upDistance);
+			
+			//Check collisions.
+			Collision gravCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
+			if( !gravCollision.hasCollided() ){
+				player.moveUp(upDistance);
+			}
+		}
+		
+		//Move down.
+		if(movingDown&&flyEnabled){
+			downDistance = (int) (GameConstants.CHARACTER_MOVEMENT * deltaSeconds); //distance = speed * delta;
+			
+			Player ghostPlayer = new Player();
+			Player player = wc.getPlayer();
+			ghostPlayer.setPos(player.getX(), player.getY());
+			
+			ghostPlayer.moveDown(downDistance);
+			
+			//Check collisions.
+			Collision gravCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
+			if( !gravCollision.hasCollided() ){
+				player.moveDown(downDistance);
+			}
+		}
+		
 		//Jump
 		if(jumping){
 			
@@ -109,22 +148,24 @@ public class Physics {
 					jumpCompleteness = 1F;
 				}
 				
+				//Create ghost player for Physics calculations.
+				Player ghostPlayer = new Player();
+				Player player = wc.getPlayer();
+				ghostPlayer.setPos(player.getX(), player.getY());
 				
 				if(jumpCompleteness<0.5F){ //If in up part of jump...
 					
 					float x = jumpCompleteness * 2;
 					jumpDistance = (int) (x * GameConstants.JUMP_MAX_HEIGHT);
-					wc.getPlayer().setHeight(jumpBeginningHeight + jumpDistance);
-					wc.updateCollisionGroup();
+					ghostPlayer.setHeight(jumpBeginningHeight + jumpDistance);
 					
 				}else if(jumpCompleteness>=0.5F){ //If in down part of jump...
 					float x = (1F - jumpCompleteness) * 2;
 					jumpDistance = (int) (x * GameConstants.JUMP_MAX_HEIGHT);
-					wc.getPlayer().setHeight(jumpBeginningHeight + jumpDistance);
-					wc.updateCollisionGroup();
+					ghostPlayer.setHeight(jumpBeginningHeight + jumpDistance);
 				}
 				
-				//If jump is complete.
+				//If jump is complete, reset all variables.
 				if(jumpCompleteness==1F){
 					jumpCompleteness = 0F;
 					jumpBeginningHeight = 0;
@@ -132,16 +173,21 @@ public class Physics {
 				}
 				
 				//Check collisions.
-				Collision jumpCollision = wc.getCollisionGroup().checkCollision();
+				Collision jumpCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
 				if(jumpCollision.hasCollided()){
 					wc.getPlayer().setHeight(jumpPreviousFrameHeight);
-					wc.updateCollisionGroup();
 					jumping = false;
 				}
 				jumpPreviousFrameHeight = wc.getPlayer().getY();
 				
 			}
 			
+		}
+		
+		//Does final collision check to see if there are issues.
+		Collision c = wc.getCollisionGroup().checkCollision();
+		if(c.hasCollided()){
+			Main.debugPrint("PHYSICS", "Error!  Unknown collision detected!");
 		}
 		
 		//Sets time of lastFrame.
@@ -151,13 +197,24 @@ public class Physics {
 	public static void setMovingLeft(boolean movingLeft) {
 		Physics.movingLeft = movingLeft;
 	}
-
 	public static void setMovingRight(boolean movingRight) {
 		Physics.movingRight = movingRight;
 	}
-
 	public static void setJumping(boolean jumping) {
 		Physics.jumping = jumping;
+	}
+	public static void setMovingUp(boolean movingUp) {
+		Physics.movingUp = movingUp;
+	}
+	public static void setMovingDown(boolean movingDown) {
+		Physics.movingDown = movingDown;
+	}
+	public static void setFlyEnabled(boolean flyEnabled) {
+		Physics.flyEnabled = flyEnabled;
+	}
+
+	public static boolean isFlyEnabled() {
+		return flyEnabled;
 	}
 	
 }

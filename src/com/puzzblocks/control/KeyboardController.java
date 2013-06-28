@@ -25,6 +25,18 @@ public class KeyboardController extends KeyAdapter {
 			Physics.setMovingRight(true);
 		}else if(e.getKeyCode()==GameConstants.KEY_JUMP){
 			Physics.setJumping(true);
+		}else if(e.getKeyCode()==GameConstants.KEY_UP){
+			Physics.setMovingUp(true);
+		}else if(e.getKeyCode()==GameConstants.KEY_DOWN){
+			Physics.setMovingDown(true);
+		}else if(e.getKeyCode()==GameConstants.KEY_FLY_TOGGLE&&GameConstants.DEBUG_MODE){
+			if(Physics.isFlyEnabled()){
+				Physics.setFlyEnabled(false);
+				Main.debugPrint("PHYSICS", "Flying is now disabled.");
+			}else{
+				Physics.setFlyEnabled(true);
+				Main.debugPrint("PHYSICS", "Flying is now enabled.");
+			}
 		}
 	}
 	public void keyReleased(KeyEvent e){
@@ -32,6 +44,10 @@ public class KeyboardController extends KeyAdapter {
 			Physics.setMovingLeft(false);
 		}else if(e.getKeyCode()==GameConstants.KEY_RIGHT){
 			Physics.setMovingRight(false);
+		}else if(e.getKeyCode()==GameConstants.KEY_UP){
+			Physics.setMovingUp(false);
+		}else if(e.getKeyCode()==GameConstants.KEY_DOWN){
+			Physics.setMovingDown(false);
 		}
 	}
 
