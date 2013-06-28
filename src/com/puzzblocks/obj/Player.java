@@ -48,7 +48,6 @@ public class Player extends ScrollingEntity {
 	public void setCanJump(boolean canJump) {
 		this.canJump = canJump;
 	}
-	
 	public float getWalkSpeed(){
 		return walkSpeed;
 	}
