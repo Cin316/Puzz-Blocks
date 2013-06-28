@@ -1,5 +1,7 @@
 package com.puzzblocks;
 
+import java.awt.event.KeyEvent;
+
 public class GameConstants {
 	
 	public static final boolean DEBUG_MODE = true;
@@ -24,5 +26,11 @@ public class GameConstants {
 	public static final float CHARACTER_MOVEMENT = 96F; //Measured in pixels per second.
 	public static final float JUMP_TIME = 1F; //Measured in seconds.
 	public static final float JUMP_MAX_HEIGHT = TILE_HEIGHT * 1.25F; //Measured in pixels.
+	
+	public static final int KEY_UP = KeyEvent.VK_W;
+	public static final int KEY_DOWN = KeyEvent.VK_S;
+	public static final int KEY_LEFT = KeyEvent.VK_A;
+	public static final int KEY_RIGHT = KeyEvent.VK_D;
+	public static final int KEY_JUMP = KeyEvent.VK_SPACE;
 	
 }
