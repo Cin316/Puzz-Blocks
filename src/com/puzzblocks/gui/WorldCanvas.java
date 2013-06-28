@@ -1,9 +1,10 @@
-package com.puzzblocks.obj;
+package com.puzzblocks.gui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import com.puzzblocks.*;
+import com.puzzblocks.obj.Player;
 import com.utilis.game.gui.*;
 import com.utilis.game.obj.*;
 
