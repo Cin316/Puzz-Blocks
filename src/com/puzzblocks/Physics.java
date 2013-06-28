@@ -13,10 +13,9 @@ public class Physics {
 	protected static boolean flyEnabled = false;
 	protected static boolean jumping = false;
 	protected static float jumpCompleteness = 0F;
+	protected static float jumpBeginningCompleteness = 0F;
 	protected static long lastFrameTime = 0L;
 	protected static long currentTime = 0L;
-	protected static int jumpBeginningHeight;
-	protected static int jumpPreviousFrameHeight = 0;
 	
 	public static void doPhysics(WorldCanvas wc){
 		
@@ -134,14 +133,14 @@ public class Physics {
 			if(wc.getPlayer().getCanJump()==false){
 				jumping = false;
 			}else{
+				
 				//If jump is just starting...
 				if(jumpCompleteness==0F){
-					jumpBeginningHeight = wc.getPlayer().getY();
-					jumpPreviousFrameHeight = jumpBeginningHeight;
+					jumpBeginningCompleteness = jumpCompleteness;
 				}
 				
 				//Calculate how much to increase jumpCompleteness.
-				jumpCompleteness += deltaSeconds / GameConstants.JUMP_TIME;
+				jumpCompleteness += (deltaSeconds / GameConstants.JUMP_TIME);
 				
 				//If jumpCompleteness is too big, round it down.
 				if(jumpCompleteness>1F){
@@ -153,32 +152,24 @@ public class Physics {
 				Player player = wc.getPlayer();
 				ghostPlayer.setPos(player.getX(), player.getY());
 				
-				if(jumpCompleteness<0.5F){ //If in up part of jump...
-					
-					float x = jumpCompleteness * 2;
-					jumpDistance = (int) (x * GameConstants.JUMP_MAX_HEIGHT);
-					ghostPlayer.setHeight(jumpBeginningHeight + jumpDistance);
-					
-				}else if(jumpCompleteness>=0.5F){ //If in down part of jump...
-					float x = (1F - jumpCompleteness) * 2;
-					jumpDistance = (int) (x * GameConstants.JUMP_MAX_HEIGHT);
-					ghostPlayer.setHeight(jumpBeginningHeight + jumpDistance);
+				//Move the ghost player up.
+				jumpDistance = (int) ( (jumpCompleteness - jumpBeginningCompleteness) * GameConstants.JUMP_MAX_HEIGHT );
+				ghostPlayer.moveUp(jumpDistance);
+				
+				//Check collisions.
+				Collision jumpCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
+				if( !jumpCollision.hasCollided() ){
+					player.moveUp(jumpDistance);
 				}
+				
+				jumpBeginningCompleteness = jumpCompleteness;
 				
 				//If jump is complete, reset all variables.
 				if(jumpCompleteness==1F){
 					jumpCompleteness = 0F;
-					jumpBeginningHeight = 0;
+					jumpBeginningCompleteness = 0;
 					jumping = false;
 				}
-				
-				//Check collisions.
-				Collision jumpCollision = wc.getCollisionGroupFromCollider(ghostPlayer).checkCollision();
-				if(jumpCollision.hasCollided()){
-					wc.getPlayer().setHeight(jumpPreviousFrameHeight);
-					jumping = false;
-				}
-				jumpPreviousFrameHeight = wc.getPlayer().getY();
 				
 			}
 			
