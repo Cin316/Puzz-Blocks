@@ -207,7 +207,7 @@ public class WorldCanvas extends ScrollingCanvas {
 		
 		super.draw(g);
 		
-		//Show FPS if there is a reference to PuzzBlocks game.
+		//Show FPS and fly indicator if there is a reference to PuzzBlocks game.
 		if(GameConstants.DEBUG_MODE){
 			if(game != null){
 				Color oldColor = g.getColor();
@@ -215,6 +215,10 @@ public class WorldCanvas extends ScrollingCanvas {
 				
 				g.setFont( new Font(GameConstants.FPS_FONT, Font.BOLD, GameConstants.FPS_FONT_SIZE) );
 				g.drawString("FPS: " + game.getFPS(), 0, (int)(GameConstants.FPS_FONT_SIZE * 0.75) ); // (+ "") converts int to String.
+				
+				if(Physics.isFlyEnabled()){
+					g.drawString("Flying enabled", 0, getHeight());
+				}
 				
 				g.setColor(oldColor);
 			}
