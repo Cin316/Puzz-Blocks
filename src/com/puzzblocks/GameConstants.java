@@ -24,8 +24,8 @@ public class GameConstants {
 	
 	public static final float GRAVITY = 128F; //Measured in pixels per second.
 	public static final float CHARACTER_MOVEMENT = 256F; //Measured in pixels per second.
-	public static final float JUMP_TIME = 1F; //Measured in seconds.
-	public static final float JUMP_MAX_HEIGHT = TILE_HEIGHT * 1.25F; //Measured in pixels.
+	public static final float JUMP_TIME = 0.5F; //Measured in seconds.
+	public static final float JUMP_MAX_HEIGHT = 128; //Measured in pixels.
 	
 	public static final int KEY_UP = KeyEvent.VK_W;
 	public static final int KEY_DOWN = KeyEvent.VK_S;

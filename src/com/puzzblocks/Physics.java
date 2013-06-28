@@ -1,7 +1,9 @@
 package com.puzzblocks;
 
 import com.puzzblocks.gui.WorldCanvas;
+import com.puzzblocks.obj.Block;
 import com.puzzblocks.obj.Player;
+import com.utilis.game.obj.Tile;
 import com.utilis.game.obj.CollisionGroup.Collision;
 
 public class Physics {
@@ -130,7 +132,7 @@ public class Physics {
 		if(jumping){
 			
 			//If Player can't jump, skip jump
-			if(wc.getPlayer().getCanJump()==false){
+			if(wc.getPlayer().getCanJump()==false&&jumpCompleteness==0F){
 				jumping = false;
 			}else{
 				
@@ -174,6 +176,26 @@ public class Physics {
 			}
 			
 		}
+		
+		//Detect which Tile the Player is standing on.
+		Player player = wc.getPlayer();
+		for(int x = 0; x<wc.getScreen().getNumOfTilesX(); x++){
+			for(int y = 0; y<wc.getScreen().getNumOfTilesY(); y++){
+				
+				
+				Tile sTile = wc.getScreen().getTile(x, y);
+				if(sTile.getRectangle().contains((int) Math.ceil( player.getX()+( (float) player.getWidth()/2) ), player.getY()+player.getHeight() )){
+					if(sTile instanceof Block){
+						((Block) sTile).onPlayerWalk(player);
+					}else{
+						player.setWalkSpeed(1.0F);
+						player.setCanJump(false);
+					}
+					break;
+				}
+			}
+		}
+		
 		
 		//Does final collision check to see if there are issues.
 		Collision c = wc.getCollisionGroup().checkCollision();
